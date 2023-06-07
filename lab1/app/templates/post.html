@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="card-title">{{ post.title }}</h1>
+    
+    <div>Автор: {{ post.author }} {{ post.date.strftime('%d.%m.%Y') }}</div>
+
+    <img class="card-img-top" src="{{ url_for('static', filename='images/' + post.image_id) }}" alt="Post image cap">
+
+    <p class="card-text">
+        {{ post.text }}
+    </p>
+    <form action="nothing">
+        <div class="form-outline w-100">
+            <textarea class="form-control" id="textAreaExample" rows="4"
+            style="background: white;"></textarea>
+        </div>
+        <div class="mt-1 mb-1">
+            <button type="button" class="btn btn-primary btn-sm">Оставить комментарий</button>
+        </div>
+    </form>
+    <div>
+        {% for comment in post.comments %}
+            <h5> {{ comment.author }} </h5>
+            <p>{{ comment.text }}</p>
+            {% if comment.replies %}
+            {% for reply in comment.replies %}
+                <h5>&nbsp; {{ reply.author }}</h5>
+                <p>&nbsp; {{ reply.text }}</p>
+            {% endfor %}
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}
